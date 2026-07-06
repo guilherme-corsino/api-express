@@ -67,3 +67,16 @@ router.put('/:id', (req, res) => {
 
     res.json(usuarios[index])
 })
+
+// PATCH /usuarios/:id — atualizar parcialmente
+router.patch('/:id', (req, res) => {
+    const index = usuarios.findIndex(u => u.id === Number(req.params.id))
+
+    if (index === -1) {
+        return res.status(404).json({ message: 'Usuário não encontrado' })
+    }
+
+    usuarios[index] = { ...usuarios[index], ...req.body }
+
+    res.json(usuarios[index])
+})
