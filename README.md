@@ -18,6 +18,7 @@ REST API built with Node.js, Express and TypeScript.
 | GET | /usuarios/:id | Get user by id |
 | POST | /usuarios | Create new user |
 | PUT | /usuarios/:id | Update user |
+| PATCH | /usuarios/:id | Partial update user |
 | DELETE | /usuarios/:id | Delete user |
 
 ## ▶️ Running locally
