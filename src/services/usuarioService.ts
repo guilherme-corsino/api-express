@@ -1,44 +1,28 @@
-interface Usuario {
-    id: number
-    nome: string
-    email: string
-}
-
-let usuarios: Usuario[] = [
-    { id: 1, nome: 'Guilherme', email: 'gui@email.com' },
-    { id: 2, nome: 'Ana', email: 'ana@email.com' },
-]
+import prisma from '../database/prisma'
 
 export const usuarioService = {
-    listarTodos(): Usuario[] {
-        return usuarios
+    async listarTodos() {
+        return prisma.usuario.findMany()
     },
 
-    buscarPorId(id: number): Usuario | undefined {
-        return usuarios.find(u => u.id === id)
+    async buscarPorId(id: number) {
+        return prisma.usuario.findUnique({ where: { id } })
     },
 
-    criar(nome: string, email: string): Usuario {
-        const novoUsuario = {
-            id: usuarios.length + 1,
-            nome,
-            email
-        }
-        usuarios.push(novoUsuario)
-        return novoUsuario
+    async criar(nome: string, email: string) {
+        return prisma.usuario.create({
+            data: { nome, email }
+        })
     },
 
-    atualizar(id: number, dados: Partial<Usuario>): Usuario | undefined {
-        const index = usuarios.findIndex(u => u.id === id)
-        if (index === -1) return undefined
-        usuarios[index] = { ...usuarios[index], ...dados }
-        return usuarios[index]
+    async atualizar(id: number, dados: { nome?: string; email?: string }) {
+        return prisma.usuario.update({
+            where: { id },
+            data: dados
+        })
     },
 
-    deletar(id: number): boolean {
-        const index = usuarios.findIndex(u => u.id === id)
-        if (index === -1) return false
-        usuarios.splice(index, 1)
-        return true
+    async deletar(id: number) {
+        return prisma.usuario.delete({ where: { id } })
     }
 }
