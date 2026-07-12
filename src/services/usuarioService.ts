@@ -6,7 +6,10 @@ export const usuarioService = {
     },
 
     async buscarPorId(id: number) {
-        return prisma.usuario.findUnique({ where: { id } })
+        return prisma.usuario.findUnique({
+            where: { id },
+            include: { posts: true }
+        })
     },
 
     async criar(nome: string, email: string) {
